@@ -4,6 +4,8 @@ extends CharacterBody2D
 @export var acceleration: float = 10
 @export var top_speed: int = 2000
 @export var friction: float = 80
+@export var crash_limit: float = 400
+var GM
 
 var facing_direction: Vector2 = Vector2.RIGHT
 var current_velocity: Vector2 = Vector2.ZERO
@@ -53,11 +55,18 @@ func _physics_process(delta):
 		var current_acceleration = acceleration * 0.5 if is_reversing else acceleration
 		
 		# Accelerate toward target velocity
-		current_velocity = current_velocity.move_toward(target_velocity, current_acceleration * delta * 60)
+		#current_velocity = current_velocity.move_toward(target_velocity, current_acceleration * delta * 60)
+		velocity = velocity.move_toward(target_velocity, current_acceleration * delta * 60)
 	else:
 		# Apply friction when no input
-		current_velocity = current_velocity.move_toward(Vector2.ZERO, friction * delta * 60)
-	
-	# Set final velocity and move
-	velocity = current_velocity
+		#current_velocity = current_velocity.move_toward(Vector2.ZERO, friction * delta * 60)
+		velocity = velocity.move_toward(Vector2.ZERO, friction * delta * 60)
+	#changed to velocity instead of current_velocity, because now when we move_and_slide into an obstacle
+	#the velocity is changed
 	move_and_slide()
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body is TileMapLayer:
+		if velocity.length() > crash_limit:
+			GM.player_die(self)

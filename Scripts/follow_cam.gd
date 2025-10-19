@@ -32,6 +32,12 @@ func _ready():
 	# Initialize zoom goal
 	zoom_goal = Vector2(zoom_dimensions.x, zoom_dimensions.x)
 
+func set_follow(new_follow):
+	follow = new_follow
+	zoom_goal = Vector2(zoom_dimensions.x, zoom_dimensions.x)
+	zoom = zoom_goal
+	position = follow.global_position
+	
 func _process(delta):
 	if not follow:
 		return
