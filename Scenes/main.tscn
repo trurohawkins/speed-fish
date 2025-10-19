@@ -6,14 +6,12 @@
 
 [node name="Node2D" type="Node2D"]
 
-[node name="TextureRect" type="TextureRect" parent="."]
-offset_left = -10757.001
-offset_top = 5120.998
-offset_right = -10357.001
-offset_bottom = 5360.998
-scale = Vector2(112.256485, -33.93146)
+[node name="Parallax2D" type="Parallax2D" parent="."]
+repeat_size = Vector2(400, 240)
+repeat_times = 10
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
 texture = ExtResource("3_kry3j")
-stretch_mode = 1
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("1_8gbba")]
 position = Vector2(161, 116)
