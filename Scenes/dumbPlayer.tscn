@@ -1,13 +1,12 @@
 [gd_scene load_steps=4 format=3 uid="uid://bjhi0bjvxxi8l"]
 
-[ext_resource type="Script" uid="uid://cnm61xkoxk7vy" path="res://Scenes/dumb_player.gd" id="1_2g3tf"]
+[ext_resource type="Script" uid="uid://bktkuyme62us2" path="res://Scripts/player.gd" id="1_2g3tf"]
 [ext_resource type="Texture2D" uid="uid://o3gqsovhra62" path="res://Sprites/icon.svg" id="1_ljx3f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cxce7"]
 
 [node name="DumbPlayer" type="CharacterBody2D"]
 script = ExtResource("1_2g3tf")
-speed = 200.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_cxce7")
