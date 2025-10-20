@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var acceleration: float = 10
 @export var top_speed: int = 2000
 @export var friction: float = 80
+@export var buoyancy_speed: float = 100
 @export var crash_limit: float = 400
 var GM
 
@@ -63,10 +64,24 @@ func _physics_process(delta):
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta * 60)
 	#changed to velocity instead of current_velocity, because now when we move_and_slide into an obstacle
 	#the velocity is changed
+	buoyancy(delta)
+	current_velocity = velocity
+
 	move_and_slide()
+	check_collisions()
+	
 
+func check_collisions():
+	for i in range(get_slide_collision_count()):
+		var collision = get_slide_collision(i)
+		if collision.get_collider() is TileMapLayer:
+			#should check direction too
+			if current_velocity.length() > crash_limit:
+				GM.player_die(self)
+				break
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body is TileMapLayer:
-		if velocity.length() > crash_limit:
-			GM.player_die(self)
+func buoyancy(delta):
+	if abs(global_position.y) > buoyancy_speed * delta:
+		var dir = -sign(global_position.y)
+		var buoy_drift = Vector2(0, dir * buoyancy_speed * delta)
+		velocity += buoy_drift

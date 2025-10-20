@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://sqy2srhhd5xd"]
+
+[ext_resource type="Texture2D" uid="uid://fqwljnfspid" path="res://Sprites/nightSkyBG.png" id="1_sjcup"]
+
+[node name="Parallax2D" type="Parallax2D"]
+repeat_size = Vector2(400, 240)
+repeat_times = 100
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_sjcup")

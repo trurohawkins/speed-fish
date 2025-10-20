@@ -29,6 +29,7 @@ var speed_offset: Vector2 = Vector2.ZERO
 var offset_goal: Vector2 = Vector2.ZERO
 
 func _ready():
+	process_priority = 10
 	# Initialize zoom goal
 	zoom_goal = Vector2(zoom_dimensions.x, zoom_dimensions.x)
 
@@ -38,7 +39,7 @@ func set_follow(new_follow):
 	zoom = zoom_goal
 	position = follow.global_position
 	
-func _process(delta):
+func _physics_process(delta):
 	if not follow:
 		return
 	
