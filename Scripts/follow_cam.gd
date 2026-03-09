@@ -19,6 +19,7 @@ extends Camera2D
 @export var min_zoom_lerp: float = 1.0
 @export var max_zoom_lerp: float = 8.0
 @export var high_speed: float = 500.0
+var zoom_step = 0.03125
 
 @export_category("Advanced Tuning")
 @export var enable_speed_based_lerp: bool = true
@@ -42,17 +43,17 @@ func set_follow(new_follow):
 func _physics_process(delta):
 	if not follow:
 		return
-	
 	check_velocity()
 	update_smoothing(delta)
-	
-	# Apply camera position with smoothing
-	var target_position = follow.position + speed_offset
-	position = position.lerp(target_position, get_position_lerp_factor(delta))
-	
-	# Apply zoom with smoothing
-	zoom = zoom.lerp(zoom_goal, get_zoom_lerp_factor(delta))
 
+	# Apply camera position with smoothing
+	var target_position = follow.global_position + speed_offset
+	global_position = global_position.lerp(target_position, delta * 8.0)
+	# Apply zoom with smoothing using mathematically magic step to keep pixel map from distorting
+	if abs(zoom.x - zoom_goal.x) > zoom_step:
+		zoom.x += zoom_step * sign(zoom_goal.x - zoom.x)
+		zoom.y = zoom.x	
+	
 func check_velocity():
 	if not follow:
 		return
@@ -79,6 +80,7 @@ func check_velocity():
 func update_smoothing(delta):
 	# Smoothly interpolate the speed offset
 	var current_lerp_speed = position_lerp_speed
+	
 	if enable_speed_based_lerp:
 		var speed_factor = min(1.0, follow.velocity.length() / high_speed)
 		current_lerp_speed = lerp(min_position_lerp, max_position_lerp, speed_factor)
