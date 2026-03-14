@@ -9,7 +9,11 @@
 size = Vector2(52, 28)
 
 [node name="DumbPlayer" type="CharacterBody2D"]
+scale = Vector2(0.25, 0.25)
 script = ExtResource("1_2g3tf")
+speed = 75
+acceleration = 2.5
+top_speed = 500
 friction = 10.0
 buoyancy_speed = 400.0
 crash_limit = 300.0

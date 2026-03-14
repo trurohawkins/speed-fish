@@ -71,8 +71,7 @@ func _physics_process(delta):
 	current_velocity = velocity
 
 	move_and_slide()
-	check_collisions()
-	
+	check_collisions()	
 
 func check_collisions():
 	for i in range(get_slide_collision_count()):
